@@ -5,34 +5,51 @@ using UnityEngine.Networking;
 
 public class PlayerShoot : NetworkBehaviour
 {
-    public GameObject bulletPrefab;
-    public Transform bulletSpawn;
 
+    public Camera shootCam;
+    public float weaponDamage = 10f;
+    public float scaleChangeFactor = 0.1f;
 
-    // Use this for initialization
-    void Start()
+    private Vector3 scaleChange;
+    private Player selfPlayer;
+
+    private void Start()
     {
-
+        scaleChange = new Vector3(scaleChangeFactor, scaleChangeFactor, scaleChangeFactor);
+        selfPlayer = GetComponent<Player>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            CmdFire();
+            Shoot();
         }
+    }
 
+    [Client]
+    void Shoot()
+    {
+        RaycastHit targetHit;
+        if (Physics.Raycast(shootCam.transform.position, shootCam.transform.forward, out targetHit))
+        {
+            if (targetHit.transform.CompareTag("Player"))
+            {
+                CmdFire(targetHit.transform.name, weaponDamage, scaleChange);
+                selfPlayer.CmdChangeScale(scaleChange);
+            }
+        }
     }
 
     [Command]
-    private void CmdFire()
+    private void CmdFire(string targetName, float damage, Vector3 scaleDamage)
     {
-        GameObject bullet = Instantiate(bulletPrefab, bulletSpawn.position, bulletSpawn.rotation);
-        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 20;
-        NetworkServer.Spawn(bullet);
-        Destroy(bullet, 2f);
+        Player targetPlayer = GameManager.GetPlayer(targetName);
+
+        targetPlayer.RpcTakeHealthDamage(damage);
+        targetPlayer.RpcChangeScale(-scaleDamage);
     }
-
-
 }
+
+
+

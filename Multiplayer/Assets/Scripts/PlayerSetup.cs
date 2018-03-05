@@ -27,8 +27,23 @@ public class PlayerSetup : NetworkBehaviour
     }
 
 
-    void Update()
+    public override void OnStartClient()
     {
+        base.OnStartClient();
 
+        string _netID = GetComponent<NetworkIdentity>().netId.ToString();
+        Player _player = GetComponent<Player>();
+
+        GameManager.RegisterPlayer(_netID, _player);
+    }
+
+    private void OnDisable()
+    {
+        if (sceneCam != null)
+        {
+            sceneCam.gameObject.SetActive(true);
+        }
+
+        GameManager.UnRegisterPlayer(transform.name);
     }
 }
