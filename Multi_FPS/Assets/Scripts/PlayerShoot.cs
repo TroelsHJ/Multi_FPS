@@ -46,7 +46,7 @@ public class PlayerShoot : NetworkBehaviour
     {
         Player targetPlayer = GameManager.GetPlayer(targetName);
 
-        targetPlayer.RpcTakeHealthDamage(damage, this.GetComponent<NetworkIdentity>());
+        targetPlayer.RpcTakeHealthDamage(damage, this.transform.name);
         targetPlayer.RpcChangeScale(-scaleDamage);
     }
 }

@@ -50,7 +50,7 @@ public class Player : NetworkBehaviour
     }
 
     [ClientRpc]
-    public void RpcTakeHealthDamage(float damageAmount, NetworkIdentity playerWhoShot)
+    public void RpcTakeHealthDamage(float damageAmount, string playerWhoShot)
     {
         currentHealth -= damageAmount;
         if (isLocalPlayer)
@@ -59,7 +59,7 @@ public class Player : NetworkBehaviour
         }
         if (currentHealth <= 0)
         {
-            //GameManager.AddKillToPlayer(playerWhoShot.netId.ToString());
+            GameManager.AddKillToPlayer(playerWhoShot);
             Respawn();
         }
     }
@@ -74,7 +74,19 @@ public class Player : NetworkBehaviour
     [ClientRpc]
     public void RpcChangeScale(Vector3 scaleChange)
     {
-        if (currentScale.x >= scaleMin && currentScale.x < scaleMax)
+        if (currentScale.x < scaleMin)
+        {
+            currentScale = new Vector3(scaleMin, scaleMin, scaleMin);
+            transform.localScale = currentScale;
+            transform.position += new Vector3(0, scaleChange.y, 0);
+        }
+        else if (currentScale.x > scaleMax)
+        {
+            currentScale = new Vector3(scaleMax, scaleMax, scaleMax);
+            transform.localScale = currentScale;
+            transform.position += new Vector3(0, scaleChange.y, 0);
+        }
+        else if (currentScale.x >= scaleMin && currentScale.x <= scaleMax)
         {
             currentScale += scaleChange;
             transform.localScale = currentScale;
