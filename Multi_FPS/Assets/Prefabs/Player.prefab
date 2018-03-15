@@ -1119,7 +1119,8 @@ MonoBehaviour:
   currentHealth: 100
   destroyOnDeath: 0
   scaleMax: 2
-  scaleMin: 0.2
+  scaleMin: 0.4
+  kills: 0
 --- !u!114 &114851132843927644
 MonoBehaviour:
   m_ObjectHideFlags: 1
