@@ -9,6 +9,8 @@ public class PlayerShoot : NetworkBehaviour
     public Camera shootCam;
     public float weaponDamage = 10f;
     public float scaleChangeFactor = 0.1f;
+    public ParticleSystem muzzleFlash;
+    public ParticleSystem smokeEffect;
 
     private Vector3 scaleChange;
     private Player selfPlayer;
@@ -30,6 +32,8 @@ public class PlayerShoot : NetworkBehaviour
     [Client]
     void Shoot()
     {
+        muzzleFlash.Play();
+        smokeEffect.Play();
         RaycastHit targetHit;
         if (Physics.Raycast(shootCam.transform.position, shootCam.transform.forward, out targetHit))
         {

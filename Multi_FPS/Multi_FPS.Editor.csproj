@@ -300,9 +300,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Multi_FPS.Plugins.csproj">
+      <Project>{66F0E276-A262-5EE9-5D91-C4BFBEE22A0A}</Project>
+      <Name>Multi_FPS.Plugins</Name>
+    </ProjectReference>
     <ProjectReference Include="Multi_FPS.csproj">
       <Project>{ABDD1F6F-96E9-71EF-DA51-09E2F37ABE82}</Project>
       <Name>Multi_FPS</Name>
+    </ProjectReference>
+    <ProjectReference Include="Multi_FPS.Editor.Plugins.csproj">
+      <Project>{FDFF469F-CEC8-EB79-E744-02856EC110BF}</Project>
+      <Name>Multi_FPS.Editor.Plugins</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
@@ -380,6 +388,11 @@
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexPicker.shader" />
     <None Include="Assets\ProCore\ProBuilder\Shader\pb_VertexShader.shader" />
     <None Include="Assets\ProCore\ProBuilder\readme.txt" />
+    <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAddSoft.shader" />
+    <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAlpha.shader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -22,12 +22,12 @@ public class PlayerMovement : MonoBehaviour
     }
 
 
-    void Update()
+    void FixedUpdate()
     {
         // moves the player 
         float movementX = Input.GetAxis("Horizontal");
         float movementY = Input.GetAxis("Vertical");
-        transform.Translate(movementX * Time.deltaTime * movementSpeed, 0, movementY * Time.deltaTime * movementSpeed);
+        transform.Translate(movementX * Time.fixedDeltaTime * movementSpeed, 0, movementY * Time.fixedDeltaTime * movementSpeed);
 
         // rotates the player
         float rotationX = Input.GetAxis("Mouse X");
