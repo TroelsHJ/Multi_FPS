@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -12,6 +13,8 @@ public class Player : NetworkBehaviour
     public float scaleMin = 0.2f;
     [SyncVar]
     public int kills;
+    public Renderer[] rendererToDisableOnDeath;
+
 
     private NetworkStartPosition[] spawnPositions;
     private Vector3 currentScale;
@@ -60,7 +63,9 @@ public class Player : NetworkBehaviour
         if (currentHealth <= 0)
         {
             GameManager.AddKillToPlayer(playerWhoShot);
-            Respawn();
+            //Respawn();
+            CmdDisableRenderers();
+            StartCoroutine(PlayerKilled());
         }
     }
 
@@ -70,14 +75,13 @@ public class Player : NetworkBehaviour
         RpcChangeScale(scaleChange);
     }
 
-
     [ClientRpc]
     public void RpcChangeScale(Vector3 scaleChange)
     {
         if (currentScale.x <= scaleMin)
         {
             currentScale = new Vector3(scaleMin + 0.01f, scaleMin + 0.01f, scaleMin + 0.01f);
-            transform.localScale = currentScale; 
+            transform.localScale = currentScale;
             transform.position += new Vector3(0, scaleChange.y, 0);
         }
         else if (currentScale.x > scaleMax)
@@ -105,6 +109,52 @@ public class Player : NetworkBehaviour
 
         transform.position = spawnPoint;
         SetDefaults();
+    }
 
+    [Command]
+    public void CmdDisableRenderers()
+    {
+        RpcDisableRenderers();
+    }
+
+    [ClientRpc]
+    private void RpcDisableRenderers()
+    {
+        SetLocalGameText();
+
+        for (int i = 0; i < rendererToDisableOnDeath.Length; i++)
+        {
+            rendererToDisableOnDeath[i].enabled = false;
+        }
+
+    }
+
+    private void SetLocalGameText()
+    {
+        if (!isLocalPlayer)
+        {
+            return;
+        }
+        PlayerCanvas.canvas.WriteGameStatusText("You died");
+        PlayerCanvas.canvas.crossHair.enabled = false;
+    }
+
+    private void EnableRenderers()
+    {
+        PlayerCanvas.canvas.WriteGameStatusText("");
+        PlayerCanvas.canvas.crossHair.enabled = true;
+
+        for (int i = 0; i < rendererToDisableOnDeath.Length; i++)
+        {
+            rendererToDisableOnDeath[i].enabled = true;
+        }
+
+    }
+
+    IEnumerator PlayerKilled()
+    {
+        Respawn();
+        yield return new WaitForSeconds(3f);
+        EnableRenderers();
     }
 }

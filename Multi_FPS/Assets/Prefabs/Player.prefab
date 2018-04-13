@@ -1183,6 +1183,17 @@ MonoBehaviour:
   scaleMax: 2
   scaleMin: 0.4
   kills: 0
+  rendererToDisableOnDeath:
+  - {fileID: 23760374072937572}
+  - {fileID: 23059547112990650}
+  - {fileID: 23686904685131656}
+  - {fileID: 23927347301713354}
+  - {fileID: 23683228909056320}
+  - {fileID: 23289466157468636}
+  - {fileID: 23683868179417234}
+  - {fileID: 23178391563188004}
+  - {fileID: 23952480701618038}
+  - {fileID: 23376282148966496}
 --- !u!114 &114851132843927644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1196,7 +1207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 8
   playerCamera: {fileID: 1963139861220896}
-  cameraSensitivity: 5
+  cameraSensitivity: 4
   cameraLimiter: 50
 --- !u!124 &124289356441815820
 Behaviour:

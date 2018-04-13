@@ -6,9 +6,11 @@ public class PlayerCanvas : MonoBehaviour
     public static PlayerCanvas canvas;
 
     [Header("Component References")]
-    [SerializeField] Text gameStatusText;
+    [SerializeField]
+    Text gameStatusText;
     [SerializeField] Text healthValue;
     [SerializeField] Text killsValue;
+    public Image crossHair;
 
     void Awake()
     {
